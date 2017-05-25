@@ -54,6 +54,6 @@ class Message extends React.Component {
 }
 
 ReactDOM.render(
-    <Message text="Welcome to my site." />,
+    <Message text="Welcome to my site." />, // this line intsantiates an instance of the Message class!
     document.getElementById('react')
 )

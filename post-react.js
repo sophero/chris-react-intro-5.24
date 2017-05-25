@@ -3,6 +3,7 @@ class Post extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            title: props.exampleProp,
             post: {
                 title: "",
                 content: ""
@@ -11,10 +12,20 @@ class Post extends React.Component {
         this.updateTitle = this.updateTitle.bind(this);
         this.updateContent = this.updateContent.bind(this);
         this.updatePost = this.updatePost.bind(this);
+        this.addPost = this.addPost.bind(this);
     }
 
     render() {
         return  <div className="post-module">
+                    <div className="post-preview">
+                        Post Preview:
+                        <div className="post-preview__title">
+                            Title: {this.state.title}
+                        </div>
+                        <div className="post-preview__content">
+                            Content: {this.state.content}
+                        </div>
+                    </div>
                     <div className="post-input">
                         <div className="post-input__title">
                             <input onChange={this.updateTitle} type="text" placeholder="Post title"/>
@@ -23,13 +34,15 @@ class Post extends React.Component {
                             <textarea onChange={this.updateContent} type="text" placeholder="Type your post content here."></textarea>
                         </div>
                         <button onClick={this.updatePost} className="post-input__submit">Update post</button>
+                        <button onClick={this.addPost} className="blog-input__submit">Post to Blog</button>
                     </div>
                     <div className="post-display">
+                        Latest Post:
                         <div className="post-display__title">
-                            {this.state.post.title}
+                            Title: {this.state.post.title}
                         </div>
                         <div className="post-display__content">
-                            {this.state.post.content}
+                            Content: {this.state.post.content}
                         </div>
                     </div>
                 </div>
@@ -47,7 +60,7 @@ class Post extends React.Component {
         });
     }
 
-    updatePost(event) {
+    updatePost() {
         this.setState({
             post: {
                 title: this.state.title,
@@ -56,9 +69,66 @@ class Post extends React.Component {
         });
     }
 
+    addPost() {
+        let post = {
+            title: this.state.title,
+            content: this.state.content
+        }
+
+        postArray.push(post);
+
+        ReactDOM.render(
+            <Blog posts={postArray} />,
+            document.getElementsByClassName('blog-container')[0]
+        )
+    }
+
 }
 
 ReactDOM.render(
-    <Post />,
+    <Post exampleProp="I was passed in as a prop."/>,
     document.getElementsByClassName('post-container')[0]
+)
+
+let postArray = [
+    {
+        title: "hey",
+        content: "you"
+    },
+    {
+        title: "peace",
+        content: "love"
+    }
+];
+
+console.log(postArray);
+
+class Blog extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            posts: props.posts
+        }
+        console.log(this.state);
+    }
+
+    render() {
+
+        let posts = this.state.posts.map(function(post, index) {
+            return <div key={index}>{post.title}: {post.content}</div>
+        });
+
+        return(
+            <div className="blog-container">
+                <h2>Blog Posts:</h2>
+                <div className="posts">{posts}</div>
+            </div>
+        )
+    }
+}
+
+ReactDOM.render(
+    <Blog posts={postArray} />,
+    document.getElementsByClassName('blog-container')[0]
 )
