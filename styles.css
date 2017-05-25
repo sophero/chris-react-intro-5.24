@@ -1,0 +1,21 @@
+body {
+    background-color: teal;
+    font-family: Verdana;
+}
+
+.menu {
+    position: fixed;[]
+    right: -120px;
+    background-color: salmon;
+    animation: slideMenu 1s linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes slideMenu {
+    0% {
+        right: -120px;
+    }
+    100% {
+        right: 0;
+    }
+}
